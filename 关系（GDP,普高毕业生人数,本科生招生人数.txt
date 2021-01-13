@@ -1,0 +1,92 @@
+import csv
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+%matplotlib notebook
+pd.options.display.max_rows = 35
+
+alldata1=csv.reader(open('D:/new/各省普通高中毕业生人数年度数据.csv','r'))
+#alldata = pd.read_table('C:/Users/Administrator/Desktop/Python课件与书籍/地区生产总值季度数据.csv')#,sep='::',header=None,names=pnames)
+alldata1
+alldata_panda1=pd.DataFrame(alldata1)
+alldata_panda1
+database11=pd.DataFrame(alldata_panda1.drop([0,1,2,35]))
+database1=pd.DataFrame(database11.drop([0,1],1))
+database1.index=database11[0][:32]
+database1.columns=database11.T[3][2:11]
+database1
+database1=pd.DataFrame(database1.drop(['地区']))
+database1=database1.astype('float')#强制类型转换
+databaseT1=database1.T
+databaseT1.columns=['北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江','上海','江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东',
+                 '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '陕西', '甘肃','青海', '宁夏', '新疆']
+databaseT1.sort_values(by='2017年',axis=1)
+alldata2=csv.reader(open('D:/new/各省高等学校招生人数（本科）年度数据.csv','r'))
+#alldata = pd.read_table('C:/Users/Administrator/Desktop/Python课件与书籍/地区生产总值季度数据.csv')#,sep='::',header=None,names=pnames)
+alldata2
+alldata_panda2=pd.DataFrame(alldata2)
+alldata_panda2
+database12=pd.DataFrame(alldata_panda2.drop([0,1,2,35]))
+database2=pd.DataFrame(database12.drop([0,1],1))
+database2.index=database12[0][:32]
+database2.columns=database12.T[3][2:11]
+database2
+database2=pd.DataFrame(database2.drop(['地区']))
+database2=database2.astype('float')#强制类型转换
+databaseT2=database2.T
+databaseT2.columns=['北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江','上海','江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东',
+                 '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '陕西', '甘肃','青海', '宁夏', '新疆']
+databaseT2.sort_values(by='2017年',axis=1)
+
+
+alldata3=csv.reader(open('D:/new/地区生产总值季度数据.csv','r'))
+#alldata = pd.read_table('C:/Users/Administrator/Desktop/Python课件与书籍/地区生产总值季度数据.csv')#,sep='::',header=None,names=pnames)
+alldata3
+alldata_panda3=pd.DataFrame(alldata3)
+database13=pd.DataFrame(alldata_panda3.drop([0,1,2,35]))
+database3=pd.DataFrame(database13.drop([0,1],1))
+database3.index=database13[0][:32]
+database3.columns=database13.T[3][2:19]
+database3=pd.DataFrame(database3.drop(['地区']))
+database3=database3.astype('float')#强制类型转换
+databaseT3=database3.T
+databaseT3.columns=['北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江','上海','江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东',
+                 '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '陕西', '甘肃','青海', '宁夏', '新疆']
+database2['2017年第二季度'] = database3['2017年第二季度']
+database1['2017年第二季度'] = database3['2017年第二季度']
+databaseT2=database2.T
+databaseT1=database1.T
+databaseT1_sorted=databaseT1.sort_values(by='2017年第二季度',axis=1)
+databaseT2_sorted=databaseT2.sort_values(by='2017年第二季度',axis=1)
+databaseT3_sorted=databaseT3.sort_values(by='2017年第二季度',axis=1)
+attr1=list(databaseT1_sorted.columns)
+values1=databaseT1_sorted.values.tolist()[0]
+values1=values1[::-1]
+values1=list(np.array(values1)/sum(values1))
+attr2=list(databaseT2_sorted.columns)
+values2=databaseT2_sorted.values.tolist()[0]
+values2=values2[::-1]
+values2=list(np.array(values2)/sum(values2))
+attr3=list(databaseT3_sorted.columns)[::-1]
+values3=databaseT3_sorted.values.tolist()[0]
+values3=values3[::-1]
+attr3
+import pyecharts.options as opts
+from pyecharts.charts import Line
+from pyecharts.globals import ThemeType
+
+def line_base() -> Line:
+    c = (
+        Line(init_opts=opts.InitOpts(width=4000))
+        .add_xaxis(attr3)
+        .add_yaxis("高中毕业人数与本科生招生人数之差", list(np.array(values1)-np.array(values2)))
+        #.add_yaxis("本科生招生人数占比",values2)
+        .set_global_opts(title_opts=opts.TitleOpts(title="普通高中生毕业生人数\n与本科生招生人数关系曲线\n（x：GDP降序）"),
+                         xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=30)),
+                        )
+        
+    )
+    return c
+line1=line_base()
+line1.render('C:\\Users\\Administrator\\render_关系（GDP,普高毕业生人数,本科生招生人数）.html')
+

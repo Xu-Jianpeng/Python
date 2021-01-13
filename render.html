@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+        <script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/china.js"></script>
+
+</head>
+<body>
+    <div id="1ee452e258604760a10caa985b13c133" style="width:900px; height:500px;"></div>
+    <script>
+        var chart_1ee452e258604760a10caa985b13c133 = echarts.init(
+            document.getElementById('1ee452e258604760a10caa985b13c133'), 'white', {renderer: 'canvas'});
+        var option_1ee452e258604760a10caa985b13c133 = {
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597"
+    ],
+    "series": [
+        {
+            "type": "map",
+            "name": "GDP",
+            "label": {
+                "show": true,
+                "position": "top",
+                "margin": 8
+            },
+            "mapType": "china",
+            "data": [
+                {
+                    "name": "\u5e7f\u4e1c",
+                    "value": 23886.77
+                },
+                {
+                    "name": "\u6c5f\u82cf",
+                    "value": 22883.79
+                },
+                {
+                    "name": "\u5c71\u4e1c",
+                    "value": 20177.39
+                },
+                {
+                    "name": "\u6d59\u6c5f",
+                    "value": 13084.07
+                },
+                {
+                    "name": "\u6cb3\u5357",
+                    "value": 11639.05
+                },
+                {
+                    "name": "\u56db\u5ddd",
+                    "value": 9653.18
+                },
+                {
+                    "name": "\u6e56\u5317",
+                    "value": 9110.05
+                },
+                {
+                    "name": "\u6e56\u5357",
+                    "value": 8334.97
+                },
+                {
+                    "name": "\u4e0a\u6d77",
+                    "value": 8308.28
+                },
+                {
+                    "name": "\u6cb3\u5317",
+                    "value": 8164.42
+                }
+            ],
+            "roam": true,
+            "zoom": 1,
+            "showLegendSymbol": true,
+            "emphasis": {}
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "GDP"
+            ],
+            "selected": {
+                "GDP": true
+            },
+            "show": true
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0
+    },
+    "title": [
+        {
+            "text": "\u5730\u533a\u751f\u4ea7\u603b\u503c2019\u5e74\u7b2c\u4e00\u5b63\u5ea6"
+        }
+    ],
+    "visualMap": {
+        "type": "piecewise",
+        "min": 8000,
+        "max": 24000,
+        "inRange": {
+            "color": [
+                "#50a3ba",
+                "#eac763",
+                "#d94e5d"
+            ]
+        },
+        "calculable": true,
+        "splitNumber": 5,
+        "orient": "vertical",
+        "showLabel": true
+    }
+};
+        chart_1ee452e258604760a10caa985b13c133.setOption(option_1ee452e258604760a10caa985b13c133);
+    </script>
+</body>
+</html>

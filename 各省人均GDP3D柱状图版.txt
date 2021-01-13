@@ -1,0 +1,76 @@
+import csv
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+%matplotlib notebook
+pd.options.display.max_rows = 35
+
+alldata=csv.reader(open('D:/new/人均GDP年度数据.csv','r'))
+#alldata = pd.read_table('C:/Users/Administrator/Desktop/Python课件与书籍/地区生产总值季度数据.csv')#,sep='::',header=None,names=pnames)
+alldata
+alldata_panda=pd.DataFrame(alldata)
+alldata_panda
+database1=pd.DataFrame(alldata_panda.drop([0,1,2,35]))
+database=pd.DataFrame(database1.drop([0],1))
+database.index=database1[0][:32]
+database.columns=database1.T[3][1:11]
+database
+database=pd.DataFrame(database.drop(['地区']))
+database=database.astype('float')#强制类型转换
+databaseT=database.T
+databaseT.columns=['北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江','上海','江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东',
+                 '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '陕西', '甘肃','青海', '宁夏', '新疆']
+databaseT.sort_values(by='2018年',axis=1)
+from pyecharts.charts import Map
+from pyecharts.charts import Bar3D
+from example.commons import Faker
+from pyecharts import options as opts
+from pyecharts.globals import ThemeType
+import random
+
+def bar3d_base() -> Bar3D:
+    data = []
+    for i in range(31):
+        for j in range(10):
+            x=attrx[i]
+            y=attry[j]
+            z=values[j][i]
+            data.append([x,y,z])
+    c = (
+        Bar3D()
+        .add(
+            "",
+            data,
+            xaxis3d_opts=opts.Axis3DOpts(attrx),
+            yaxis3d_opts=opts.Axis3DOpts(attry),
+            zaxis3d_opts=opts.Axis3DOpts(type_="value"),
+        )
+        .set_global_opts(
+            visualmap_opts=opts.VisualMapOpts(min_=31336,max_=140211),
+            title_opts=opts.TitleOpts(title="人均GDP2018年度数据（元）"),
+        )
+    )
+    return c
+
+def map_visualmap() -> Map:
+    c = (
+        Map()
+        .add("人均GDP（元）", [list(z) for z in zip(attr,values)], "china")
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="人均GDP2018年度数据（元）"),
+            visualmap_opts=opts.VisualMapOpts(min_=31336,max_=140211)#, is_piecewise=True),
+        )
+    )
+    return c
+attry=list(databaseT.index)
+attrx=list(databaseT.columns)
+values=databaseT.values.tolist()
+print(attr)
+print(values)
+#list(z) for z in zip(attr,values)
+z = list(zip(attry,values))
+print(z)
+#map1=map_visualmap()
+#map1.render('C:\\Users\\Administrator\\render_GDP_avg.html')
+bar3d=bar3d_base()
+bar3d.render('C:\\Users\\Administrator\\render_GDP_avg_3d.html')

@@ -1,0 +1,53 @@
+import csv
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+%matplotlib notebook
+pd.options.display.max_rows = 35
+
+alldata=csv.reader(open('D:/new/高等学校招生人数（万人）分省年度数据 (1).csv','r'))
+#alldata = pd.read_table('C:/Users/Administrator/Desktop/Python课件与书籍/地区生产总值季度数据.csv')#,sep='::',header=None,names=pnames)
+alldata
+alldata_panda=pd.DataFrame(alldata)
+alldata_panda
+database1=pd.DataFrame(alldata_panda.drop([0,1,2,35]))
+database=pd.DataFrame(database1.drop([0,1],1))
+database.index=database1[0][:32]
+database.columns=database1.T[3][2:11]
+database
+database=pd.DataFrame(database.drop(['地区']))
+database=database.astype('float')#强制类型转换
+databaseT=database.T
+databaseT.columns=['北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江','上海','江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东',
+                 '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '陕西', '甘肃','青海', '宁夏', '新疆']
+databaseT.sort_values(by='2017年',axis=1)
+from pyecharts.charts import Map
+from example.commons import Faker
+from pyecharts import options as opts
+
+def map_visualmap() -> Map:
+    c = (
+        Map()
+        .add("高校招生人数", [list(z) for z in zip(attr,values)], "china")
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="地区高等学校招生人数2017年（万人）"),
+            #visualmap_opts=opts.VisualMapOpts(min_=0.97,max_=56.94, is_piecewise=True),
+            visualmap_opts=opts.VisualMapOpts(min_=0,max_=0.075)#, is_piecewise=True),
+        )
+    )
+    return c
+attr=list(databaseT.columns)
+values=databaseT.values.tolist()[0]
+values=list(np.array(values)/sum(values))
+print(attr)
+print(values)
+#list(z) for z in zip(attr,values)
+z = list(zip(attr,values))
+print(z)
+#map1=Map()
+#map1=Map("各省GDP总值", '单位：亿元',width=1200,height=600)
+#map1.add("", attr, values, type="effectScatter", is_random=True, visual_range=[0, 100], 
+ #       maptype='china', geo_emphasis_color='#F5D0A9',visual_text_color="#6E6E6E",
+ #        is_visualmap=True, is_map_symbol_show=False)
+map1=map_visualmap()
+map1.render('C:\\Users\\Administrator\\render_招生.html')
